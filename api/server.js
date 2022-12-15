@@ -3,6 +3,10 @@ import express from "express";
 const app = express();
 const PORT = 8000;
 
+// middleware to get the body of the request sent
+
+app.use(express.json());
+
 // routers
 import task from "./src/routers/taskRouter.js";
 
@@ -18,10 +22,28 @@ import task from "./src/routers/taskRouter.js";
 
 app.use("/api/v1/task", task);
 
-app.use("*", (req, res) => {
-  res.status(400).json({
-    status: "error",
+// handle all the uncaught error
+app.use("*", (req, res, next) => {
+  //   res.status(400).json({
+  //     status: "error",
+  //     message: "404 page not found",
+  //   });
+
+  const error = {
+    code: 404,
     message: "404 page not found",
+  };
+
+  next(error);
+});
+
+// global error handling
+
+app.use((error, req, res, next) => {
+  const statusCode = error.code || 500;
+  res.status(statusCode).json({
+    status: "error",
+    message: error,
   });
 });
 

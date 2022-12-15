@@ -10,10 +10,19 @@ router.get("/", (req, res) => {
     message: "you",
   });
 });
-router.post("/", (req, res) => {
-  res.json({
-    message: "adding data to the database",
-  });
+router.post("/", (req, res, next) => {
+  try {
+    console.log(req.body);
+    res.json({
+      message: "adding data to the database",
+    });
+  } catch (error) {
+    // res.json({
+    //   status: "error",
+    //   message: error.message,
+    // });
+    next(error);
+  }
 });
 router.put("/", (req, res) => {
   res.json({
