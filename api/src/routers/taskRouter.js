@@ -29,6 +29,11 @@ router.put("/", (req, res) => {
     message: "updating data to the database",
   });
 });
+router.delete("/", (req, res) => {
+  res.json({
+    message: "updating data to the database",
+  });
+});
 
 // if we export router then the methid used in the router also exported
 export default router;
